@@ -68,7 +68,7 @@ namespace CloudFiles.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<UserFile>> UpdateFile(UserFile request)
+        public async Task<ActionResult<UserFile>> UpdateFile(UserFileDto request)
         {
 
             if (request == null)
@@ -82,9 +82,11 @@ namespace CloudFiles.Controllers
                 return BadRequest();
             }
 
-            fileToUpdate.Name = request.Name;
-            fileToUpdate.Description = request.Description;
-            fileToUpdate.Content = request.Content;
+            var mappedFile = _userFileService.MapUserFileDto(request);
+
+            fileToUpdate.Name = mappedFile.Name;
+            fileToUpdate.Description = mappedFile.Description;
+            fileToUpdate.Content = mappedFile.Content;
 
             _dataContext.Update(fileToUpdate);
             await _dataContext.SaveChangesAsync();

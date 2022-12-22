@@ -23,9 +23,7 @@ namespace CloudFiles.Controllers
         [HttpGet("/api/UserFiles")]
         public async Task<ActionResult<List<UserFile>>> GetFiles()
         {
-            var files = new List<UserFile>();
-
-            return Ok(await _dataContext.UserFiles.ToListAsync<UserFile>());
+           return Ok(await _dataContext.UserFiles.ToListAsync<UserFile>());
         }
 
         [HttpGet("{Id}")]

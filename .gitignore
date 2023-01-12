@@ -361,3 +361,17 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/CloudFIles/CloudFilesData.db
+/CloudFIles/CloudFilesData.db-shm
+/CloudFIles/CloudFilesData.db-wal
+
+# db files 
+*.db
+*.db-shm
+*.db-wal
+/CloudFIles/CloudFilesData.db
+/CloudFIles/CloudFilesData.db-shm
+/CloudFIles/CloudFilesData.db-wal
+/CloudFiles/CloudFilesData.db
+/CloudFiles/CloudFilesData.db-shm
+/CloudFiles/CloudFilesData.db-wal

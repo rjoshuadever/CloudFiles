@@ -47,23 +47,6 @@ namespace CloudFiles.Controllers
             return Ok();
         }
 
-        [HttpPost("api/AddVersion")]
-        public async Task<ActionResult<UserFile>> AddVersion(UserFileDto userFile)
-        {
-            if (userFile == null)
-            {
-                return BadRequest("Missing File");
-            }
-
-            if(userFile.PreviousVersionId == null)
-            {
-                return BadRequest("Missing Previous Version Id");
-            }
-
-            _dataContext.Add(userFile);
-            await _dataContext.SaveChangesAsync();
-            return Ok();
-        }
 
         [HttpPut]
         public async Task<ActionResult<UserFile>> UpdateFile(UserFileDto request)
@@ -80,12 +63,31 @@ namespace CloudFiles.Controllers
                 return BadRequest();
             }
 
+            //File is mapped to convert base64 to Byte[]
             var mappedFile = _userFileService.MapUserFileDto(request);
 
             fileToUpdate.Name = mappedFile.Name;
             fileToUpdate.Description = mappedFile.Description;
-            fileToUpdate.Content = mappedFile.Content;
 
+            //If changes have been made to the content of the file, a new record will be created
+            if(BitConverter.ToString(fileToUpdate.Content) != request.Content)
+            {
+                mappedFile.PreviousVersionId = fileToUpdate.Id;
+                var newVersion = _userFileService.CalculateNewVersion(mappedFile.Version);
+                if(newVersion != mappedFile.Version) { 
+                    mappedFile.Version = newVersion;
+                    await _dataContext.AddAsync(mappedFile);
+                    await _dataContext.SaveChangesAsync();
+
+                    return Ok();
+                } else
+                {
+                    return BadRequest("Unable to create new version.");
+                }
+                
+            }
+
+            //If no content in the file was changed, but other properties were updated, update the record
             _dataContext.Update(fileToUpdate);
             await _dataContext.SaveChangesAsync();
                       

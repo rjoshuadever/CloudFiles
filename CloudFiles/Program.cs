@@ -1,8 +1,19 @@
 global using CloudFiles.Data;
 global using Microsoft.EntityFrameworkCore;
 using CloudFiles.Services;
+using Microsoft.Data.Sqlite;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Configuration.GetConnectionString("CloudFilesDb") == String.Empty) {
+    SqliteConnection conn;
+    conn = new SqliteConnection("Data Source=CloudFilesData.db");
+
+    conn.Open();
+}
+   
 
 // Add services to the container.
 
@@ -17,6 +28,14 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context  = services.GetRequiredService<DataContext>();
+    context.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

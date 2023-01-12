@@ -11,12 +11,15 @@ Each endpoint is designed to utilize the REST verb for routing, so please ensure
 Below you will find a more details about the endpoints along with sample objects, but here is a summary with useful notes. Happy Clicking!
 
 GET All files
+
   ​/api​/UserFiles
 
 Get one file, by ID
+
   ​/api​/UserFile​/{Id}
 
 POST - Add a file
+
   ​/api​/UserFile​/api​/AddFile
   
 PUT - Updating a file

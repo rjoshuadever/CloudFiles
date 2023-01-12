@@ -74,9 +74,20 @@ namespace CloudFiles.Controllers
             {
                 mappedFile.PreviousVersionId = fileToUpdate.Id;
                 var newVersion = _userFileService.CalculateNewVersion(mappedFile.Version);
-                if(newVersion != mappedFile.Version) { 
+                if(newVersion != mappedFile.Version) {
                     mappedFile.Version = newVersion;
-                    await _dataContext.AddAsync(mappedFile);
+
+                    var newFile = new UserFile()
+                    {
+                        Name = mappedFile.Name,
+                        Description = mappedFile.Description,
+                        Version = newVersion,
+                        PreviousVersionId = mappedFile.Id,
+                        Content = mappedFile.Content,
+
+                    };
+                    
+                    await _dataContext.AddAsync(newFile);
                     await _dataContext.SaveChangesAsync();
 
                     return Ok();

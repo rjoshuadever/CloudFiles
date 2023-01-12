@@ -202,5 +202,16 @@ Schema
 No links
 
 Schemas
-UserFile
 UserFileDto
+
+id	integer($int32)
+name	string
+nullable: true
+description	string
+nullable: true
+version	string
+nullable: true
+previousVersionId	integer($int32)
+content	string
+nullable: true
+

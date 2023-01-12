@@ -26,10 +26,12 @@ PUT - Updating a file
 **NOTE: if the content of a file is updated, a new record will be created in the db, and the old file will still exist as a previous version.**
 **Versions increment by 1 automatically with every iteration**
 **If you only modify the file details but do not change the content, it will not create a new version, but the current version will be updated with your changes**
+  
   ​/api​/UserFile
 
 DELETE
 **Caution, this is currently a HARD DELETE, your file will be gone forever.**
+
 ​/api​/UserFile​/{Id}
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
